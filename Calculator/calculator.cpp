@@ -23,13 +23,14 @@ calculator::calculator()
     m = new memory;
     expression = "";
     saved = false;
-    isRunning =true;
+    isRunning = true;
     //p = new Parser;
 }
 
 void calculator::commands()
 {
-    string userInput = "werite<fSfacsfacsfas.txt>", lhs, rhs;
+    string userInput = "a = -2 1/2 + c", lhs, rhs;
+    // -2 1/2 + 0
 //    userInput = "write<a.txt>";
     string nochangestr;
     string fileName = "untitled";
@@ -112,7 +113,7 @@ void calculator::commands()
 
 
             rhs = trimBoth(userInput.substr(equalIndex+1, userInput.size()));
-
+            rhs = replaceLetter(rhs);
             // if the right hand side is size 1
             // store that memory slot the he lhs
             if(rhs.length() == 1)
@@ -142,8 +143,9 @@ void calculator::commands()
                 //if there are no operator
                     // convert the rhs to a mixed fraction
                 //process rhs to get a mixed fraction
-
+                cout<<"right of =: need to send to parser!"<<rhs<<endl;
                 mixed mTemp(1,2,3);
+
                 cout<<lhs[0]<<" "<<"size: "<<(lhs[0]-'A')<<endl;
                 m->setMemory((lhs[0]-'A'),mTemp);
                 cout<<*m<<endl;
@@ -152,6 +154,7 @@ void calculator::commands()
         }
         else //where there are no equal sign
         {
+            userInput = replaceLetter(userInput);
             string clr = userInput.substr(0,clear.length());
             string qut = userInput.substr(0,quit.length());
             string wrt = userInput.substr(0, write.length());
@@ -241,6 +244,9 @@ void calculator::commands()
             }
             else // some expression is enter need to prase it
             {
+
+                userInput = replaceLetter(userInput);
+                cout<<userInput<<endl;
                 // pass it down to the parser
             }
         }

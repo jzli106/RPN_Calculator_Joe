@@ -41,8 +41,9 @@ struct twin
 int main()
 {
     calculator cal;
-    //cal.commands();
-    cout<<cal.replaceLetter("A^2+(B)+B+E");
+
+    cal.commands();
+   // cout<<cal.replaceLetter("A = -2 1/2");
 
 //    try
 //    {
