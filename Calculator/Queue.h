@@ -22,7 +22,7 @@ template<typename T>
 class Queue
 {
 public:
-    Queue(unsigned int s = 10);
+    Queue(unsigned int s = 50);
     ~Queue();
     Queue(const Queue<T>& other);
     Queue<T>& operator=(const Queue<T>& other);
@@ -30,6 +30,7 @@ public:
     bool full();
     bool empty();
 
+    Node<T>* getHead();
     void setMaxSize(unsigned int m);
     unsigned int getMaxSize() const;
     unsigned int getSize() const;
@@ -40,6 +41,7 @@ public:
     Queue<T>& operator>>(T& data); // return a queue to chain it
     void enqueue(const T& data); // starting at the tail
     T dequeue();
+    T dequeue_behind();
     T front() const; // so can't change it and won't fire a copy constructor // how??
     T back() const;
 
@@ -100,6 +102,12 @@ bool Queue<T>::empty()
 }
 
 template<typename T>
+Node<T>* Queue<T>::getHead()
+{
+    return head;
+}
+
+template<typename T>
 void Queue<T>::setMaxSize(unsigned int m)
 {
     if (max_qty > m)
@@ -133,6 +141,7 @@ template<typename T>
 void Queue<T>::clear()
 {
     nukem();
+    max_qty = 50;
 }
 
 template<typename T>
@@ -206,6 +215,31 @@ T Queue<T>::dequeue()
     return d;
 }
 
+// starting at the head
+template<typename T>
+T Queue<T>::dequeue_behind()
+{
+    if(this->empty())
+    {
+        throw QUEUE_EMPTY;
+    }
+
+    T d = tail->getData();
+
+    Node<T> *ptr = head;
+
+    // must traverse through queue and find node right before the tail
+    for(; ptr && ptr->nextNode() != tail; ptr = ptr->nextNode());
+
+//    cout << "tail before = " << tail << endl;
+    tail = ptr;
+
+//    cout << "tail after = " << tail << endl;
+
+    --qty;
+
+    return d;
+}
 
 
 template<typename T>
@@ -269,9 +303,11 @@ ostream& operator<<(ostream& out, const Queue<R> &q)
 
     for(; ptr; ptr = ptr->nextNode())
     {
-//        out << ptr->getData() << endl;
-        out << ptr << "\t" << ptr->getData() << endl;
+        out << ptr->getData() << " ";
+//        out << ptr << "\t" << ptr->getData() << endl;
     }
+
+    out << "\b" << endl;
 
     return out;
 }

@@ -68,8 +68,15 @@ mixed::~mixed()
 
 void mixed::value(int w, int n, int d)
 {
-    int sign = (w<0 || n < 0) ? -1:1; // check the sign of the while number and store for next line
+//    int sign = (w<0 || n < 0) ? -1:1; // check the sign of the while number and store for next line
+//    int sign = n < 0 ? -1:1; // check the sign of the while number and store for next line
+//    whole = sign*w;
+//    this->setValue(sign*(abs(w*d)+abs(n)),d);
+//    cout << "mixed value\n";
+
+    int sign = (w<0 || n < 0) ? -1:1;
     this->setValue(sign*(abs(w*d)+abs(n)),d);
+
 }
 
 
@@ -87,21 +94,11 @@ void mixed::value(const fraction &x)
 
 ostream& operator<<(ostream& out, const mixed &number)
 {
-    if(out == cout)
-    {
-        if(number.get_num() == 0 || number.get_denom() == 1)
-            out<<number.get_num();
-        else
-            out<<number.get_num()<<"/"<<number.get_denom();
-    }
+    if(number.get_num() == 0 || number.get_denom() == 1)
+        out<<number.get_num();
     else
-    {
-        if(number.get_num() == 0 || number.get_denom() == 1)
-            out<<number.get_num();
-        else
-            out<<number.get_num()<<"/"<<number.get_denom();
-    }
-        return out;
+        out<<number.get_num()<<"/"<<number.get_denom();
+    return out;
 }
 
 istream& operator>>(istream& in, mixed &number)
@@ -117,3 +114,51 @@ istream& operator>>(istream& in, mixed &number)
     number.value(w,n,d);
     return in;
 }
+
+
+
+
+
+
+void mixed::add(const mixed &y)
+{
+    this->setValue((double)this->get_num() * (double)y.get_denom() + (double)y.get_num() * (double)this->get_denom(),
+                   (double)this->get_denom() * (double)y.get_denom());
+    this->reduce();
+
+//    cout << "\nmixed added = " << *this << endl;
+
+}
+void mixed::subtract(const mixed &y)
+{
+    this->setValue((double)this->get_num() * y.get_denom() - (double)y.get_num() * (double)this->get_denom(),
+                   (double)this->get_denom() * (double)y.get_denom());
+    this->reduce();
+}
+
+void mixed::multiply(const mixed &y)
+{
+    this->setValue((double)this->get_num() * (double)y.get_num(), (double)this->get_denom() * (double)y.get_denom());
+    this->reduce();
+}
+
+void mixed::divide(const mixed &y)
+{
+    this->setValue((double)this->get_num() * (double)y.get_denom(), (double)this->get_denom() * (double)y.get_num());
+    this->reduce();
+}
+void mixed::raiseTo(const mixed &y)
+{
+    double power = (double)y.get_num() / (double)y.get_denom(), n, d;
+
+    n = pow((double)this->get_num(), power);
+    d = pow((double)this->get_denom(), power);
+
+    *this = n/d;
+}
+
+
+//int mixed::getWholeNumber()
+//{
+//    return whole;
+//}

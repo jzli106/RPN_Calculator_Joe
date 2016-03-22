@@ -1,14 +1,12 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+
 #include <iostream>
 #include <cstring>
-#include "Queue.h" // need to rewrite this to be void pointers
+#include "Queue.h"
 #include "Stack.h"
-
-
-// use an array of functions = assign by funct[0] = &add(a,b), funct[1] = &sub(a,b), etc.
-
+#include "mixed.h"
 
 using std::cin;
 using std::cout;
@@ -20,95 +18,64 @@ using std::istream;
 class Parser
 {
 public:
+    struct twin
+    {
+        bool b; // 0 is mixed, 1 is operator
+        void* v;
+    };
+
+    typedef void (mixed::*MixedPtr)(const mixed&);
+    typedef void (Parser::*ParserPtr)(Node<twin*>*);
+    typedef void (Parser::*PEDMASPtr)();
+
+
     Parser();
-    Parser(const Parser &p);
+//    Parser(const Parser &p);
     ~Parser();
 
     Parser& operator=(const Parser &p);
     Parser& operator>>(Parser &p);
     Parser& operator<<(const Parser &p);
 
+    void getInput(std::string userInput);
+    void printRPNQueue();
+
+    void RPN();
+    void poppingStackParentheses();
+    void poppingStackAll();
+
     friend istream& operator>>(istream &in, Parser &p);
     friend ostream& operator<<(ostream &out, const Parser &p);
 
 private:
-    char a[100];
-    char *ptr;
-//    Stack *s;
-//    Queue *q;
+    char a[100]; // holds the c_string
 
+    PEDMASPtr pedmas[100];
+    ParserPtr pp[2]; // function pointers for the printing of the RPN queue
+    MixedPtr mp[100]; // function pointers holds the operations -- seems excessive memory
+
+    Stack<twin*> *s_numbers;
+    Stack<twin*> *s_operators;
+    Queue<twin*> *q;
+    Queue<twin*> *q_temp;
+
+
+    void twin_true(Node<twin*> *ptr);
+    void twin_false(Node<twin*> *ptr);
+    void createToken(char *t);
+    void orderOfPrecedence(); // PEMDAS
     void copy(const Parser &p);
     void parse();
+    void nukem();
+
+    void enqMixed();
+    void opSwap();
+    void firstParanthesis();
+    void secondParanthesis();
+    void exponent();
+    void md();
+    void as();
 };
 
-
-//Parser::Parser()
-//{
-//    // initialize stack and queue <- need void pointers
-
-//}
-
-//Parser::Parser(const Parser &p)
-//{
-//    copy(p);
-//}
-
-//Parser::~Parser(){	}
-
-//Parser& Parser::operator=(const Parser &p)
-//{
-//    copy(p);
-//}
-
-//Parser& Parser::operator>>(Parser &p){	}
-//Parser& Parser::operator<<(const Parser &p){	}
-
-
-//void Parser::copy(const Parser &p)
-//{
-
-//}
-
-//// parses into tokens and pushes onto stack and queue
-//void Parser::parse()
-//{
-//    cout << "parsing\n";
-//    ptr = strtok(a, " ");
-
-//    int i = 1;
-//    while (ptr != NULL)
-//    {
-//        cout << i << "ptr = \"" << ptr << "\"" << endl;
-//        ptr = strtok(NULL, " ");
-
-//        ++i;
-//    }
-
-//    ptr = NULL;
-//}
-
-
-//istream& operator>>(istream &in, Parser &p)
-//{
-//    if(in == cin)
-//    {
-//        cout << "Enter: ";
-//        cin.getline(p.a, 100);
-//    }
-
-//    p.parse();
-//}
-
-////++++++++++++++whole definition needs some work+++++++++++++++++++++++++++++++++++
-//ostream& operator<<(ostream &out, const Parser &p)
-//{
-//    //
-//    if (out == cout)
-//    {
-//        out << "array = " << p.a <<endl;
-//        out << "ptr = " << p.ptr << endl;
-//    }
-
-
-//}
-#endif // PARSER_H
+ // PARSER_H
+#endif

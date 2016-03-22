@@ -1,4 +1,8 @@
 #include "memory.h"
+#include <iostream>
+using namespace std;
+
+
 memory::memory()
 {
     size = 30;
@@ -73,11 +77,18 @@ void memory::setMemory(unsigned int pos, mixed data)
 
 bool memory::saveMemory(string fileName)
 {
-
+    try
+    {
     ofstream ofile;
     ofile.open(fileName);
     ofile<<*this;
     ofile.close();
+    return true;
+    }
+    catch(...)
+    {
+        return false;
+    }
 }
 
 bool memory::readMemory(string fileName)

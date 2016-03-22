@@ -19,12 +19,14 @@ class calculator
 {
 public:
     calculator();
+    ~calculator();
     void commands();
     string trimBoth(string str);
         string replaceLetter(string str);
 
 private:
     memory *m;
+    Parser *p;
     string expression;
     //Parser *p;
     bool saved;
@@ -32,6 +34,7 @@ private:
     string extractFileName(string str);
     bool isSaved(string str);
     void exitCalculator();
+
 
 };
 

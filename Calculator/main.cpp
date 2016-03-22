@@ -1,5 +1,5 @@
 #include <iostream>
-#include <fstream>
+#include "calculator.h"
 #include "fraction.h"
 #include "mixed.h"
 #include <string>
@@ -7,7 +7,11 @@
 #include "Queue.h"
 #include "Parser.h"
 #include "memory.h"
-#include "calculator.h"
+#include <cstdlib>
+#include <fstream>
+using namespace std;
+
+
 
 //enum letters {A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z};
 
@@ -40,22 +44,13 @@ struct twin
 
 int main()
 {
-    calculator cal;
 
-    cal.commands();
-   // cout<<cal.replaceLetter("A = -2 1/2");
+    calculator c;
+    c.commands();
 
-//    try
-//    {
-//            cal.commands();
-//    }
-//    catch(...)
-//    {
-//        cout<<"something bad happend good bye!"<<endl;
-//    }
+    // it does not
+    return 0;
 
-
-      return 0;
 }
 
 void test_constructor()
@@ -571,3 +566,57 @@ void test4()
     cout<<"pop "<<stk->pop();
     //std::array<std::pair<std::string, int>, 3> test{{"a", 1}, {"b", 2}, {"c", 3}};
 }
+/**
+memory loaded from: store.txt
+Enter an expression or command: a + 2
+0
+tobeprase: A + 2
+0 2 +    = 2
+
+Enter an expression or command: 1 1/2 + 1 1/2
+
+tobeprase: 1 1/2 + 1 1/2
+3/2 3/2 +        = 3
+
+Enter an expression or command: -1 1/2 + 2 1/2 + 1.2
+
+tobeprase: -1 1/2 + 2 1/2 + 1.2
+-1/2 5/2 + 6/5 +         = 3.2 = 16/5
+
+Enter an expression or command: a + b
+0 + 0
+tobeprase: A + B
+0 0 +    = 0
+
+Enter an expression or command: c + d
+1 + 1/2
+tobeprase: C + D
+0 0 +    = 0
+
+Enter an expression or command: a = 1/2
+
+right of =: need to send to parser!
+A size: 0
+5/3 0 1 1/2 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Enter an expression or command: a + c
+5/3 + 1
+tobeprase: A + C
+0 0 +    = 0
+
+Enter an expression or command: 3 + 4
+
+tobeprase: 3 + 4
+3 4 +    = 7
+
+Enter an expression or command: -2 + 1
+
+tobeprase: -2 + 1
+-2 1 +   = -1
+
+Enter an expression or command: 5+1
+
+tobeprase: 5+1
+5        = 5
+
+Enter an expression or command:
+ */

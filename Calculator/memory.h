@@ -38,3 +38,4 @@ class memory
 };
 
 #endif // MEMORY_H
+

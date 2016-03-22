@@ -16,7 +16,7 @@ template<typename T>
 class Stack
 {
 public:
-    Stack(int maxSize = 10);
+    Stack(int maxSize = 50);
     virtual ~Stack();
     Stack(const Stack &other);
     Stack operator=(const Stack &other);
@@ -30,6 +30,7 @@ public:
     T pop();
     T peek();
     void resize(unsigned int s);
+    void clear();
 
     Stack& operator<<(T d);
     Stack& operator>>(T& d);
@@ -112,6 +113,13 @@ template<typename T>
 unsigned int Stack<T>::max_size()
 {
     return maxQty;
+}
+
+template<typename T>
+void Stack<T>::clear()
+{
+    this->nukem();
+    maxQty = 50;
 }
 
 // CHECKED

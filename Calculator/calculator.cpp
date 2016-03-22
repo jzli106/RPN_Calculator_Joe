@@ -21,15 +21,22 @@ enum MEMORYERROR {MEMORYINDEXERROR};
 calculator::calculator()
 {
     m = new memory;
+    p = new Parser;
     expression = "";
     saved = false;
     isRunning = true;
-    //p = new Parser;
+    p = new Parser;
+}
+
+calculator::~calculator()
+{
+    delete m;
+    delete p;
 }
 
 void calculator::commands()
 {
-    string userInput = "a = -2 1/2 + c", lhs, rhs;
+    string userInput = "a = -2 1/2 + c", lhs, rhs, toBePrase="";
     // -2 1/2 + 0
 //    userInput = "write<a.txt>";
     string nochangestr;
@@ -46,6 +53,7 @@ void calculator::commands()
     m->setMemory('C'-'A',1);
     m->setMemory('D'-'A',.5);
     m->readMemory("store.txt");
+
     while(1)
     {
         cout<<"Enter an expression or command: ";
@@ -144,6 +152,8 @@ void calculator::commands()
                     // convert the rhs to a mixed fraction
                 //process rhs to get a mixed fraction
                 cout<<"right of =: need to send to parser!"<<rhs<<endl;
+                toBePrase = rhs;
+
                 mixed mTemp(1,2,3);
 
                 cout<<lhs[0]<<" "<<"size: "<<(lhs[0]-'A')<<endl;
@@ -154,7 +164,7 @@ void calculator::commands()
         }
         else //where there are no equal sign
         {
-            userInput = replaceLetter(userInput);
+
             string clr = userInput.substr(0,clear.length());
             string qut = userInput.substr(0,quit.length());
             string wrt = userInput.substr(0, write.length());
@@ -244,11 +254,20 @@ void calculator::commands()
             }
             else // some expression is enter need to prase it
             {
-
+                toBePrase = userInput;
                 userInput = replaceLetter(userInput);
-                cout<<userInput<<endl;
-                // pass it down to the parser
+
             }
+        }
+
+        if(toBePrase.size()>0)
+        {
+            cout<<"tobeprase: "<<toBePrase<<endl;
+            p->getInput(toBePrase);
+            p->RPN();
+            p->printRPNQueue();
+            cout << endl;
+            toBePrase ="";
         }
 
         {
@@ -282,6 +301,7 @@ void calculator::commands()
         //            save the memory with the give file name
 
         }
+
     }
 }
 
