@@ -261,7 +261,7 @@ void Parser::createToken(char *t)
                 string fractDenom = fract.substr(i+2, fract.length());
 
                 // making a mixed number
-                if (q_temp->back()->b == false)
+                if (!q_temp->empty() && q_temp->back()->b == false)
                 {
                     fraction f_temp;
                     f_temp.setValue(atoi(fractNum.c_str()), atoi(fractDenom.c_str()));
@@ -324,7 +324,8 @@ void Parser::printRPNQueue()
     }
 
     cout << " = " << *(mixed*)s_numbers->pop()->v << endl; // insert stack answer
-
+    answer = *(mixed*)s_numbers->pop()->v;
+    cout << " = " << answer << endl; // insert stack answer
     this->nukem(); // to clear memory for the next set
 }
 
@@ -370,3 +371,7 @@ ostream& operator<<(ostream &out, const Parser &p)
     }
 }
 
+mixed Parser::getAnswer()
+{
+    return answer;
+}

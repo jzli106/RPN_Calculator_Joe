@@ -38,6 +38,7 @@ public:
     Parser& operator<<(const Parser &p);
 
     void getInput(std::string userInput);
+    mixed getAnswer();
     void printRPNQueue();
 
     void RPN();
@@ -58,6 +59,7 @@ private:
     Stack<twin*> *s_operators;
     Queue<twin*> *q;
     Queue<twin*> *q_temp;
+    mixed answer;
 
 
     void twin_true(Node<twin*> *ptr);
