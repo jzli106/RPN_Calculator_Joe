@@ -50,7 +50,7 @@ void calculator::commands()
 
     while(1)
     {
-        cout<<"Enter an expression or command: ";
+        cout<<"\nEnter an expression or command: ";
         getline(cin, userInput);
 
         //check if the user saved the memory or not
@@ -145,7 +145,7 @@ void calculator::commands()
                     // convert the rhs to a mixed fraction
                 //process rhs to get a mixed fraction
 
-                cout<<"right of =: need to send to parser!"<<rhs<<endl;
+//                cout<<"right of =: need to send to parser!"<<rhs<<endl;
                 toBePrase = replaceLetter(rhs);
             }
             saved = isSaved(userInput);
@@ -252,7 +252,7 @@ void calculator::commands()
 
         if(toBePrase.size()>1)
         {
-            cout<<"tobeprase: "<<toBePrase<<endl;
+//            cout<<"tobeprase: "<<toBePrase<<endl;
             p->getInput(toBePrase);
             p->RPN();
             p->printRPNQueue();
@@ -264,7 +264,7 @@ void calculator::commands()
         if(equalIndex!= -1 && toBePrase.size() > 1)
         {
 
-            cout<<lhs[0]<<" "<<"size: "<<(lhs[0]-'A')<<endl;
+//            cout<<lhs[0]<<" "<<"size: "<<(lhs[0]-'A')<<endl;
             m->setMemory((lhs[0]-'A'),mTemp);
             cout<<*m<<endl;
         }
@@ -325,7 +325,7 @@ string calculator::replaceLetter(string str)
         //when pos is not equal to -1
         while ((pos = s.find(del)) != std::string::npos) {
             token =s.substr(0, pos);
-            cout<<"token: "<<token<<endl;
+//            cout<<"token: "<<token<<endl;
             temp2+=token;
             temp2+= m->toString(del[0]-'A');
             s.erase(0, pos + del.length());

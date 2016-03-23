@@ -1,5 +1,5 @@
 
-#include "parser.h"
+#include "Parser.h"
 #include <iostream>
 #include <cstring>
 #include "Queue.h"
@@ -263,8 +263,11 @@ void Parser::createToken(char *t)
                 // making a mixed number
                 if (!q_temp->empty() && q_temp->back()->b == false)
                 {
+
+                    int sign = (*(mixed*)q_temp->back()->v).get_num() < 0 ? -1:1;
+
                     fraction f_temp;
-                    f_temp.setValue(atoi(fractNum.c_str()), atoi(fractDenom.c_str()));
+                    f_temp.setValue(sign*atoi(fractNum.c_str()), atoi(fractDenom.c_str()));
 
                     delete tw;
                     tw = NULL;
@@ -307,14 +310,15 @@ void Parser::printRPNQueue()
 {
     Node<twin*> *ptr = q->getHead();
 
+    cout << "Reverse Polish Notation:  ";
+
     for(; ptr; ptr = ptr->nextNode())
     {
-//        cout << "printing\n";
         // calling a function pointer depending if it's bool false/true (i.e. mixed/operator)
         (this->*pp[ptr->getData()->b])(ptr);
     }
 
-    cout << "\t";
+    cout << endl;
 
     // printing in double
     if ((*(mixed*)s_numbers->peek()->v).get_denom() > 1)
@@ -323,7 +327,6 @@ void Parser::printRPNQueue()
                 /(double)(*(mixed*)s_numbers->peek()->v).get_denom();
     }
 
-    cout << " = " << *(mixed*)s_numbers->pop()->v << endl; // insert stack answer
     answer = *(mixed*)s_numbers->pop()->v;
     cout << " = " << answer << endl; // insert stack answer
     this->nukem(); // to clear memory for the next set
