@@ -45,10 +45,16 @@ struct twin
 int main()
 {
 
-    cout << "This program takes an algebraic expression,"
+    cout << "\t\t\tRPN CALCULATOR"
+         << endl << "This program takes an algebraic expression,"
             << endl << "and translates it to Reverse Polish Notation"
-            << endl << "(Make sure to include a space between numbers and operators)"
-            << endl << "(Press return or type \"QUIT\" or \"EXIT\" to exit)" << endl;
+
+            << endl << endl << "Fractions include a \"/\" and mixed can be entered as \"-1 1/3\""
+            << endl << "Make sure to include a space between numbers and operators"
+            << endl << endl << "EXAMPLE: ( 4 + 1 2/5 ) - 4/7 * 7 ^ 3 / 4"
+            << endl << "(Press return or type \"QUIT\" or \"EXIT\" to exit)"
+            << endl << "----------------------------------------------------------------------"
+            << endl;
     calculator c;
     c.commands();
 
